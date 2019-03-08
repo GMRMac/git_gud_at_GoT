@@ -3,13 +3,14 @@ body {
 }
 h1 {
   text-align: center;
+  font-family: 'Marcellus SC', serif;
 }
 .container {
   max-width: 1200px;
   margin: 0 auto;
 }
 .loadingScreen {
-  background-color: #00f;
+  background-color: #000;
   top: 0;
   position: absolute;
   height: 100%;
