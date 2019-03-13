@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Marcellus+SC");
 body {
-  color: #00f;
+  color: #090909;
 }
 h1 {
   text-align: center;
@@ -9,6 +9,7 @@ h1 {
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 50px 10px;
 }
 .loadingScreen {
   background-color: #090909;
@@ -21,4 +22,9 @@ h1 {
   padding-top: 25%;
   color: #fff;
   text-align: center;
+}
+.caracterPreview {
+  border: 1px #191919 solid;
+  padding: 5px;
+  margin: 10px 0;
 }
