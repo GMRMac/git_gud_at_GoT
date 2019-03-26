@@ -17,7 +17,7 @@ function welcomeMessage(){
     var burdy = document.getElementsByTagName("body");
     var content = document.getElementsByClassName("content");
     console.log(burdy);
-    var div = "<div class='loadingScreen'><h1>Loading...</h1></div>";
+    var div = "<div class='loadingScreen'><h2>Loading...</h2></div>";
     
     burdy[0].innerHTML += div;
     

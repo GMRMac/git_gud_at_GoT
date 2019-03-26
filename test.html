@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+        <div class="id"></div>
+
+
+        <script defer>
+            console.log("trest")
+            var content = document.getElementsByClassName("id")[0],
+                teljar = 0;
+            
+            for(i=0;i<6;i++){
+                var teljar2 = 10;
+                content.innerHTML +="<br>"
+                for(j=1;j<6;j++){
+                    teljar++
+                    if(i%2){
+                        content.innerHTML += teljar + " ";
+                    } else {
+                        content.innerHTML += (teljar-teljar2+5) + " ";
+                        teljar2--
+                    }
+
+                }
+            }
+        </script>
+    </body>
+</html>
