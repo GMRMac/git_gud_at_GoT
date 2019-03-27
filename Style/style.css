@@ -58,6 +58,14 @@ h2 {
 }
 .tiles {
   border: 1px solid #090909;
-  height: 10px;
-  width: 10px;
+}
+.game__tile {
+  height: 20px;
+  border: 1px solid #090909;
+}
+.col-2,
+.col-sm-12,
+.row {
+  margin: 0;
+  padding: 0;
 }
