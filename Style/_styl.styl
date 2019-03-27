@@ -57,10 +57,33 @@ h1, h2
     
 .game
     &__tile
-        height 20px 
+        height 50px 
         border 1px solid black
         
 .col-2, .col-sm-12, .row
     margin 0
     padding 0
     
+.col-xs-1-10, .col-sm-1-10, .col-2-10
+    position relative
+    min-height 1px
+
+.col-xs-1-10 
+    width 10%
+    float left
+    
+.col-2-10
+    width 20%
+    float left
+
+@media (min-width: 768px)
+    h1
+        color black
+        
+@media (min-width: 992px)
+    h1
+        color black
+    
+@media (min-width: 1200px)
+    h1
+        color black
