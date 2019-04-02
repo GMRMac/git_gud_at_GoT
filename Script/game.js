@@ -1,3 +1,6 @@
+var heroTile = 1,
+    enemyTile = 1;
+
 function createGame(){
     let contentContainer = document.getElementById("caracterOverview"),
         h1 = document.querySelector("h1"),
@@ -14,18 +17,26 @@ function createGame(){
         for(j = 1; 6 > j; j++){
             tileNumber++;
             if(i%2){
-                contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + (tileNumber+tileNumber2) + "' class='tiles'>" + (tileNumber+tileNumber2) + "</div>"
+                contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + (tileNumber+tileNumber2) + "' class='tiles'>"/* + (tileNumber+tileNumber2)*/ + "</div>";
                 tileNumber2 = tileNumber2 - 2;
-              /*  if(i === 5){
-                    console.log("turd")
-                    contentGame.innerHTML += "<div class='col-1'>";
-                }*/
             }  else {
-                contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + tileNumber + "' class='tiles'>" + tileNumber + "</div>"
-               /* if(i === 6){
-                    contentGame.innerHTML += "<div class='col-1'>";
-                }*/
+                contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + tileNumber + "' class='tiles'>"/* + tileNumber*/ + "</div>";
+            }
+            if(j === 5 && i === 5){
+                moveCharacter("enemy");
+                moveCharacter("hero");
             }
         }
+    }
+}
+
+function moveCharacter(character){
+    let findHeroTile = document.getElementById("tile-"+heroTile),
+        findEnemyTile = document.getElementById("tile-"+enemyTile);
+    console.log(enemyTile,heroTile);
+    if (character === "hero"){
+        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Pic/placeholder.jpg'>";
+    } else if (character === "enemy"){
+        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Pic/placeholder.jpg'>";
     }
 }

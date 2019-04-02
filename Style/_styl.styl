@@ -52,13 +52,56 @@ h1, h2
         padding 50px 0
         z-index 10
         
-.tiles
-    border 1px solid black
+    
+#heroImage
+    position absolute
+    top 0px
+    height 35%
+    border-radius 100%
+    margin 5px
+    
+#enemyImage
+    position absolute
+    bottom 0px
+    height 35%
+    border-radius 100%
+    margin 5px
     
 .game
     &__tile
-        height 50px 
-        border 1px solid black
+        height 150px 
+        background-image url("../Media/Graph/tile_middle.png")
+        background-position center
+        background-repeat no-repeat
+        background-size cover
+        
+#tile-
+    &1, &11, &21
+        background-image url("../Media/Graph/tile_left_up.png")!important
+        background-position center
+        background-repeat no-repeat
+        background-size cover     
+        
+#tile-
+    &10, &20, &30
+        background-image url("../Media/Graph/tile_left_down.png")!important
+        background-position center
+        background-repeat no-repeat
+        background-size cover    
+        
+#tile-
+    &5, &15, &25
+        background-image url("../Media/Graph/tile_right_down.png")!important
+        background-position center
+        background-repeat no-repeat
+        background-size cover
+        
+#tile-
+    &6, &16, &26
+        background-image url("../Media/Graph/tile_right_up.png")!important
+        background-position center
+        background-repeat no-repeat
+        background-size cover
         
 .col-2, .col-sm-12, .row
     margin 0

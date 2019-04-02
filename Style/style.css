@@ -56,12 +56,58 @@ h2 {
   padding: 50px 0;
   z-index: 10;
 }
-.tiles {
-  border: 1px solid #090909;
+#heroImage {
+  position: absolute;
+  top: 0px;
+  height: 35%;
+  border-radius: 100%;
+  margin: 5px;
+}
+#enemyImage {
+  position: absolute;
+  bottom: 0px;
+  height: 35%;
+  border-radius: 100%;
+  margin: 5px;
 }
 .game__tile {
-  height: 50px;
-  border: 1px solid #090909;
+  height: 150px;
+  background-image: url("../Media/Graph/tile_middle.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#tile-1,
+#tile-11,
+#tile-21 {
+  background-image: url("../Media/Graph/tile_left_up.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#tile-10,
+#tile-20,
+#tile-30 {
+  background-image: url("../Media/Graph/tile_left_down.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#tile-5,
+#tile-15,
+#tile-25 {
+  background-image: url("../Media/Graph/tile_right_down.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#tile-6,
+#tile-16,
+#tile-26 {
+  background-image: url("../Media/Graph/tile_right_up.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .col-2,
 .col-sm-12,
