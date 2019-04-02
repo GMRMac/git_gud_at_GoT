@@ -79,6 +79,15 @@ h2 {
 #game__container {
   justify-content: center;
 }
+#game__log {
+  border: 1px solid #000;
+  height: 540px;
+  overflow-y: scroll;
+}
+#game__button--container {
+  display: block;
+  height: 60px;
+}
 #tile-1,
 #tile-11,
 #tile-21 {
