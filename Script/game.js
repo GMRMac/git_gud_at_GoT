@@ -7,7 +7,7 @@ function createGame(){
         tiles = 30,
         tileNumber = 0;
     contentContainer.innerHTML ="";
-    contentContainer.innerHTML += "<div class='col-sm-9 row' id='game__game'></div>";
+    contentContainer.innerHTML += "<div class='col-sm-9 row' id='game__container'><div class='col-sm-8 row' id='game__game'></div></div>";
     contentContainer.innerHTML += "<div class='col-sm-3' id='game__log'></div>";
         let contentGame = document.getElementById("game__game"),
             contentLog = document.getElementById("game__log");
