@@ -11,7 +11,9 @@ function fetchData(){
 fetchData();
 
 var heroCharacter,
+    heroImageNumber,
     enemyCharacter,
+    EnemyImageNumber,
     characterside;
 
 function displaySelectableCharacters(data, header, characterSide){
@@ -29,11 +31,11 @@ function displaySelectableCharacters(data, header, characterSide){
         let name = characters.aliases;
         let pictureFileSplit = name[0].split(" ");
         let pictureFileJoin = pictureFileSplit.join("_");
-        console.log(pictureFileJoin);
+//        console.log(pictureFileJoin);
         pictureFileJoin = "placeholder";
         content.innerHTML += `
-<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-4 col-6'><div class='caracterPreview'>
-<img style="width:100%;" src="Media/Pic/`+pictureFileJoin+`.jpg">
+<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-3 col-4'><div class='caracterPreview'>
+<img style="width:100%;" src="Media/Graph/`+(characterNumber+1)+`.png">
 <h2>`+name+`</h2>
 </div></div>`;
         characterNumber++;
@@ -46,26 +48,25 @@ function findSelectedCharacter(number){
         return data.json()
     })
     .then(function(myJson){
-        console.log(myJson);
-        displaySelectedCharacter(myJson);
+        displaySelectedCharacter(myJson, number);
     })
 }
 
-function displaySelectedCharacter(data){
+function displaySelectedCharacter(data, number){
     var character = document.getElementById("characterContent");
-    let name = data.aliases,
-        pictureFileSplit = name[0].split(" "),
-        pictureFileJoin = pictureFileSplit.join("_");
     pictureFileJoin = "placeholder";
     character.style.display = "block";
     character.innerHTML = `<div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content"><h2>` + name + `</h2>
-<img style="width:100%;" src="Media/Pic/`+pictureFileJoin+`.jpg">
+<img style="width:50%; display:block;" src="Media/Graph/`+(number+1)+`.png">
 <button onclick="displayEnemyCharacter()">Next>></button>`
     +`</div>`;
         if(characterside === "hero"){
             heroCharacter = data;
+            heroImageNumber = number;
+            console.log(heroCharacter)
         } else if (characterside === "enemy"){
             enemyCharacter = data;
+            enemyImageNumber = number;
         }
 }
 
@@ -145,9 +146,9 @@ function moveCharacter(character){
         findEnemyTile = document.getElementById("tile-"+enemyTile);
     console.log(enemyTile,heroTile);
     if (character === "hero"){
-        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Pic/placeholder.jpg'>";
+        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/" + (heroImageNumber+1) + ".png'>";
     } else if (character === "enemy"){
-        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Pic/placeholder.jpg'>";
+        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/" + (enemyImageNumber+1) + ".png'>";
     }
 }
 
