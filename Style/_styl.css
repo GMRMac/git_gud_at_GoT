@@ -24,10 +24,18 @@ h2 {
   text-align: center;
   overflow: hidden;
 }
-.caracterPreview {
+.characterPreview {
   border: 1px #191919 solid;
   padding: 5px;
   margin: 10px 0;
+}
+.characterPreview__button {
+  background: none;
+  border: 0;
+  font-size: 18px;
+  display: block;
+  margin: 0 auto;
+  text-decoration: underline;
 }
 .overlay {
   display: hidden;

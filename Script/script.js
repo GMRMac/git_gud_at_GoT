@@ -23,9 +23,9 @@ function displaySelectableCharacters(data, header, characterSide){
     content.innerHTML = "";
     if(h1.innerHTML == "Select your enemy!"){
         document.innerHTML ="";
-        return createGame();
+        return createGame(); // If enemy(and hero) is selected, the game will start
     }
-    characterside = characterSide;
+    characterside = characterSide; 
     h1.innerHTML = header;
     for(var characters of data){
         let name = characters.aliases;
@@ -34,9 +34,10 @@ function displaySelectableCharacters(data, header, characterSide){
 //        console.log(pictureFileJoin);
         pictureFileJoin = "placeholder";
         content.innerHTML += `
-<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-3 col-4'><div class='caracterPreview'>
+<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-3 col-4'><div class='characterPreview'>
 <img style="width:100%;" src="Media/Graph/`+(characterNumber+1)+`.png">
 <h2>`+name+`</h2>
+<button class="characterPreview__button">View more</button>
 </div></div>`;
         characterNumber++;
     }
