@@ -5,10 +5,15 @@ function fetchData(){
     })
     .then(function(myJson){
         console.log(myJson);
+        var charInfo = document.getElementsByClassName("characterInformation")[0];
+        charInfo.innerHTML = `
+            <div class="col-12"><h3>Selected characters:</h3></div>
+            <div class="col-6"><p id="heroPickedCharacter">Hero:</p></div>
+            <div class="col-6"><p id="enemyPickedCharacter">Enemy:</p></div>
+        `
         displaySelectableCharacters(myJson, "Select your hero!", "hero");
     })
 }
-fetchData();
 
 var heroCharacter,
     heroImageNumber,
@@ -16,9 +21,12 @@ var heroCharacter,
     EnemyImageNumber,
     characterside;
 
+fetchData();
+
+//This function displays the characters
 function displaySelectableCharacters(data, header, characterSide){
     let characterNumber = 0,
-        content = document.getElementById("caracterOverview"),
+        content = document.getElementById("caracterOverview");
         h1 = document.querySelector("h1");
     content.innerHTML = "";
     if(h1.innerHTML == "Select your enemy!"){
@@ -27,6 +35,8 @@ function displaySelectableCharacters(data, header, characterSide){
     }
     characterside = characterSide; 
     h1.innerHTML = header;
+
+    
     for(var characters of data){
         let name = characters.aliases;
         let pictureFileSplit = name[0].split(" ");
@@ -43,6 +53,7 @@ function displaySelectableCharacters(data, header, characterSide){
     }
 }
 
+//This function gets the information about one specific character
 function findSelectedCharacter(number){
     fetch("https://anapioficeandfire.com/api/characters/"+(number+1))
     .then(function(data){
@@ -64,10 +75,9 @@ function displaySelectedCharacter(data, number){
         if(characterside === "hero"){
             heroCharacter = data;
             heroImageNumber = number;
-            console.log(heroCharacter)
         } else if (characterside === "enemy"){
             enemyCharacter = data;
-            enemyImageNumber = number;
+            enemyImageNumber = number;      
         }
 }
 
@@ -78,17 +88,29 @@ function displayEnemyCharacter(){
         return data.json();
     })
     .then(function(myJson){
-        console.log(myJson);
+        console.log(myJson);            
+        if(characterside === "hero"){
+            setSelectedCharacterBubble("hero");
+        } else if (characterside === "enemy"){
+            setSelectedCharacterBubble("enemy");         
+        }
         displaySelectableCharacters(myJson, "Select your enemy!", "enemy");
     })
 }
 
-console.log("hello world");
+function setSelectedCharacterBubble(char){
+    if (char === "hero"){
+        let bubble = document.getElementById("heroPickedCharacter");
+        bubble.innerHTML += `<img class="characterInformation--img" id="heroPickedCharacterImage" src="Media/Graph/` + (heroImageNumber+1) + `.png">`;
+    } else if (char === "enemy"){
+        let bubble = document.getElementById("enemyPickedCharacter");
+        bubble.innerHTML += `<img class="characterInformation--img" id="enemyPickedCharacterImage" src="Media/Graph/` + (enemyImageNumber+1) + `.png">`;
+    }
+}
 
-
+// This function removes the pop-up box that appears if u select a character when you click on the dark field.
 function removeOverlay(){
     var overlay = document.getElementById("characterContent");
-    console.log("help");
     overlay.innerHTML="";
 }
 
@@ -108,7 +130,9 @@ function createGame(){
     let contentContainer = document.getElementById("caracterOverview"),
         h1 = document.querySelector("h1"),
         tiles = 30,
-        tileNumber = 0;
+        tileNumber = 0,
+        heroBubble = document.getElementById("heroPickedCharacterImage"),
+        enemyBubble = document.getElementById("enemyPickedCharacterImage");
     heroTile = 1;
     enemyTile = 1;
     contentContainer.innerHTML ="";
@@ -128,28 +152,40 @@ function createGame(){
                 contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + tileNumber + "' class='tiles'>"/* + tileNumber*/ + "</div>";
             }
             if(j === 5 && i === 5){
-                moveCharacter("enemy");
-                moveCharacter("hero");
+                moveCharacter("enemy",0);
+                moveCharacter("hero",0);
                 let gameLog = document.getElementById("game__log");
                 gameLog.innerHTML = "The game is on!<br>";
+                enemyBubble.classList.remove("characterInformation--img__active");
+                heroBubble.classList.add("characterInformation--img__active");
             }
         }
     }
 }
 
-function moveCharacter(character){
+function moveCharacter(character, number){
     if(heroTile > 30){
         return winnerScreen("hero");
     } else if (enemyTile > 30) {
         return winnerScreen("enemy");
     }
     let findHeroTile = document.getElementById("tile-"+heroTile),
-        findEnemyTile = document.getElementById("tile-"+enemyTile);
+        findEnemyTile = document.getElementById("tile-"+enemyTile),
+        heroBubble = document.getElementById("heroPickedCharacterImage"),
+        enemyBubble = document.getElementById("enemyPickedCharacterImage");
     console.log(enemyTile,heroTile);
     if (character === "hero"){
         findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/" + (heroImageNumber+1) + ".png'>";
+        if(number != 6){
+            heroBubble.classList.remove("characterInformation--img__active")
+            enemyBubble.classList.add("characterInformation--img__active")
+        }
     } else if (character === "enemy"){
         findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/" + (enemyImageNumber+1) + ".png'>";
+        if(number != 6){
+            enemyBubble.classList.remove("characterInformation--img__active")
+            heroBubble.classList.add("characterInformation--img__active")
+        }
     }
 }
 
@@ -161,7 +197,7 @@ function rollFunction(){
         gameLog.innerHTML += "Hero rolled a " + randomNumber + "<br>";
         gameLog.innerHTML += "Hero moves from tile " + heroTile + " to tile " + (heroTile+randomNumber) + "<br>";
         heroTile = (heroTile+randomNumber);
-        moveCharacter("hero");
+        moveCharacter("hero", randomNumber);
         if (randomNumber == 6){
             return
         } else {
@@ -173,7 +209,7 @@ function rollFunction(){
         gameLog.innerHTML += "Enemy rolled a " + randomNumber + "<br>";
         gameLog.innerHTML += "Enemy moves from tile " + enemyTile + " to tile " + (enemyTile+randomNumber); + "<br>"
         enemyTile = (enemyTile+randomNumber);
-        moveCharacter("enemy");
+        moveCharacter("enemy", randomNumber);
         if (randomNumber == 6){
             return
         } else {

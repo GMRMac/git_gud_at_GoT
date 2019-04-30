@@ -3,7 +3,8 @@ body {
   color: #090909;
 }
 h1,
-h2 {
+h2,
+h3 {
   text-align: center;
   font-family: 'Marcellus SC', serif;
 }
@@ -63,6 +64,22 @@ h2 {
   display: block;
   padding: 50px 0;
   z-index: 10;
+}
+.characterInformation div {
+  display: flex;
+  height: 48px;
+  justify-content: center;
+}
+.characterInformation--img {
+  height: 32px;
+  width: 32px;
+  padding: 2px;
+  border: 1px solid #090909;
+  border-radius: 100%;
+  margin: 0 4px;
+}
+.characterInformation--img__active {
+  border: 1px solid #f00 !important;
 }
 #heroImage {
   position: absolute;
