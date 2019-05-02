@@ -19,7 +19,12 @@ var heroCharacter,
     heroImageNumber,
     enemyCharacter,
     EnemyImageNumber,
-    characterside;
+    characterside,
+    monsterOne,
+    monsterTwo,
+    monsterThree,
+    monsterFour,
+    monsterFive;
 
 fetchData();
 
@@ -38,16 +43,16 @@ function displaySelectableCharacters(data, header, characterSide){
 
     
     for(var characters of data){
-        let name = characters.aliases;
-        let pictureFileSplit = name[0].split(" ");
-        let pictureFileJoin = pictureFileSplit.join("_");
+        let name = characters.aliases,
+            pictureFileSplit = name[0].split(" "),
+            pictureFileJoin = pictureFileSplit.join("_");
 //        console.log(pictureFileJoin);
         pictureFileJoin = "placeholder";
         content.innerHTML += `
-<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-3 col-4'><div class='characterPreview'>
-<img style="width:100%;" src="Media/Graph/`+(characterNumber+1)+`.png">
+<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-4 col-6'><div class='characterPreview'>
+<img class="characterPreview__image" src="Media/Graph/`+(characterNumber+1)+`.png">
 <h2>`+name+`</h2>
-<button class="characterPreview__button">View more</button>
+<button><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">View more<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>
 </div></div>`;
         characterNumber++;
     }
@@ -67,17 +72,46 @@ function findSelectedCharacter(number){
 function displaySelectedCharacter(data, number){
     var character = document.getElementById("characterContent");
     pictureFileJoin = "placeholder";
+    if (data.name){
+        var selectedName = `<h2>Name:</h2><h4>` + data.name + `</h4>`;
+    } else {
+        var selectedName = ``;
+    }
+    if (data.aliases){
+        var selectedAliases = `<h2>Aliases:</h2><h4>` + data.aliases + `</h4>`;
+    } else {
+        var selectedAliases = ``;
+    }
+    if (data.gender){
+        var selectedGender = `<h2>Gender:</h2><h4>` + data.gender + `</h4>`;
+    } else {
+        var selectedGender = ``;
+    }
+    if (data.culture){
+        var selectedCulture = `<h2>Culture:</h2><h4>` + data.culture + `</h4>`;
+    } else {
+        var selectedCulture = ``;
+    }
     character.style.display = "block";
-    character.innerHTML = `<div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content"><h2>` + name + `</h2>
-<img style="width:50%; display:block;" src="Media/Graph/`+(number+1)+`.png">
-<button onclick="displayEnemyCharacter()">Next>></button>`
+    console.log(data);
+
     +`</div>`;
         if(characterside === "hero"){
             heroCharacter = data;
-            heroImageNumber = number;
+            heroImageNumber = number;    
+            character.innerHTML = `
+                <div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content">
+                <img class="selectedPicture" src="Media/Graph/`+(number+1)+`.png">
+                ` + selectedName + selectedAliases + selectedGender + selectedCulture + `
+                <button onclick="displayEnemyCharacter()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">Select enemy!<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>`
         } else if (characterside === "enemy"){
             enemyCharacter = data;
             enemyImageNumber = number;      
+            character.innerHTML = `
+                <div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content">
+                <img class="selectedPicture" src="Media/Graph/`+(number+1)+`.png">
+                ` + selectedName + selectedAliases + selectedGender + selectedCulture + `
+                <button onclick="displayEnemyCharacter()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">Start the game!<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>`    
         }
 }
 
@@ -137,7 +171,7 @@ function createGame(){
     enemyTile = 1;
     contentContainer.innerHTML ="";
     contentContainer.innerHTML += "<div class='col-sm-7 row' id='game__game'></div>";
-    contentContainer.innerHTML += "<div class='col-sm-5' id='game__log--container'><div class='col-12' id='game__button--container'><button id='game__button--roll' onclick='rollFunction()'>Roll me!</button></div><div class='col-12' id='game__log'></div>";
+    contentContainer.innerHTML += "<div class='col-sm-5' id='game__log--container'><div class='col-12' id='game__button--container'><button id='game__button--roll' onclick='rollFunction()'><h3><img src='Media/Graph/dice.svg' class='button--dice'>Roll me!<img src='Media/Graph/dice.svg' class='button--dice'></h3></button></div><div class='col-12' id='game__log'></div>";
         let contentGame = document.getElementById("game__game"),
             contentLog = document.getElementById("game__log--container");
     h1.innerHTML = "The race is on!"
@@ -152,6 +186,7 @@ function createGame(){
                 contentGame.innerHTML += "<div class='col-2-10 game__tile col-2-tile' id='tile-" + tileNumber + "' class='tiles'>"/* + tileNumber*/ + "</div>";
             }
             if(j === 5 && i === 5){
+                setObstacles()
                 moveCharacter("enemy",0);
                 moveCharacter("hero",0);
                 let gameLog = document.getElementById("game__log");
@@ -187,6 +222,30 @@ function moveCharacter(character, number){
             heroBubble.classList.add("characterInformation--img__active")
         }
     }
+}
+
+function setObstacles(){
+    let fieldOne = (Math.ceil(Math.random()*4)+1),
+        fieldTwo = (Math.ceil(Math.random()*4)+8),
+        fieldThree = (Math.ceil(Math.random()*4)+14),
+        fieldFour = (Math.ceil(Math.random()*4)+19),
+        fieldFive = (Math.ceil(Math.random()*4)+25);
+    monsterOne = fieldOne;
+    monsterTwo = fieldTwo;
+    monsterThree = fieldThree;
+    monsterFour = fieldFour;
+    monsterFive = fieldFive;
+    
+    placeObstacle(monsterOne);
+    placeObstacle(monsterTwo);
+    placeObstacle(monsterThree);
+    placeObstacle(monsterFour);
+    placeObstacle(monsterFive);
+}
+
+function placeObstacle(obstaclePlace){
+    var tile = document.getElementById("tile-"+obstaclePlace);
+    tile.innerHTML = "<img class='monsterImage' src='Media/Graph/enemy.svg'>";
 }
 
 function rollFunction(){

@@ -1,9 +1,33 @@
 body
     color black
     
-h1, h2, h3
+h1, h2, h3, h4, button
     text-align center
     font-family 'Marcellus SC', serif
+
+button
+    background none
+    border none
+    font-size 20px
+    display block
+    margin 30px auto
+    &:hover
+        text-decoration underline
+
+.monsterImage
+    height 90%
+    margin 5%
+        
+.button
+    &--arrows
+        height 22px
+        position relative
+        top -2px
+    &--dice
+        height 48px
+        position relative
+        top -2px
+        margin 5px 20px
     
 .container
     max-width 1200px
@@ -34,6 +58,14 @@ h1, h2, h3
         display block
         margin 0 auto
         text-decoration underline
+    &__image
+        width 60%
+        margin 25px 20%
+    
+.selectedPicture
+    display block
+    max-width 300px
+    margin 15px auto
     
 .overlay
     display hidden
@@ -43,9 +75,10 @@ h1, h2, h3
     &__content
         position fixed
         background white
-        width 60%
+        display block
+        width 40%
         height 80%
-        margin 5% 20%
+        margin 5% 30%
         z-index 11
         overflow-y scroll
     &--dark
@@ -101,7 +134,7 @@ h1, h2, h3
         justify-content center
     &__log
         border 1px solid black
-        height 540px
+        height 510px
         overflow-y scroll
     &__button--container
         display block
