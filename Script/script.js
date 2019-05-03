@@ -70,7 +70,11 @@ function findSelectedCharacter(number){
 }
 
 function displaySelectedCharacter(data, number){
-    var character = document.getElementById("characterContent");
+    let character = document.getElementById("characterContent"),
+        darkOverlay = `<div onclick="removeOverlay()" class="overlay--dark"><img class="overlay__close" src="Media/Graph/whiteX.svg"></div>         <div class="overlay__content">
+                <img class="selectedPicture" src="Media/Graph/`,
+        buttonPartOne = `<button onclick="displayEnemyCharacter()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">`,
+        buttonPartTwo = `<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>`;
     pictureFileJoin = "placeholder";
     if (data.name){
         var selectedName = `<h2>Name:</h2><h4>` + data.name + `</h4>`;
@@ -99,19 +103,12 @@ function displaySelectedCharacter(data, number){
         if(characterside === "hero"){
             heroCharacter = data;
             heroImageNumber = number;    
-            character.innerHTML = `
-                <div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content">
-                <img class="selectedPicture" src="Media/Graph/`+(number+1)+`.png">
-                ` + selectedName + selectedAliases + selectedGender + selectedCulture + `
-                <button onclick="displayEnemyCharacter()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">Select enemy!<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>`
+            character.innerHTML = darkOverlay + (number + 1) + `.png">
+                ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Select enemy!" + buttonPartTwo
         } else if (characterside === "enemy"){
             enemyCharacter = data;
             enemyImageNumber = number;      
-            character.innerHTML = `
-                <div onclick="removeOverlay()" class="overlay--dark"></div><div class="overlay__content">
-                <img class="selectedPicture" src="Media/Graph/`+(number+1)+`.png">
-                ` + selectedName + selectedAliases + selectedGender + selectedCulture + `
-                <button onclick="displayEnemyCharacter()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">Start the game!<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>`    
+            character.innerHTML = darkOverlay + (number + 1) + `.png"> ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Start the game!" + buttonPartTwo
         }
 }
 
@@ -250,12 +247,17 @@ function placeObstacle(obstaclePlace){
 
 function rollFunction(){
     let gameLog = document.getElementById("game__log"),
-        randomNumber = Math.ceil(Math.random()*6);
+        randomNumber = Math.ceil(Math.random()*6),
+        randomRetreatNumber = (Math.ceil(Math.random()*2)+2);
     if (characterRound === "hero"){
         let hero = document.getElementById("heroImage").remove();
-        gameLog.innerHTML += "Hero rolled a " + randomNumber + "<br>";
-        gameLog.innerHTML += "Hero moves from tile " + heroTile + " to tile " + (heroTile+randomNumber) + "<br>";
         heroTile = (heroTile+randomNumber);
+        gameLog.innerHTML += "Hero rolled a " + randomNumber + "<br>";
+        if (heroTile == monsterOne || heroTile == monsterTwo || heroTile == monsterThree || heroTile == monsterFour || heroTile == monsterFive){
+            gameLog.innerHTML += "Oh no! The hero encountered a monster and had to flee. The hero steps back " + randomRetreatNumber + " tiles.<br>"
+            heroTile = heroTile - randomRetreatNumber;
+        }
+        gameLog.innerHTML += "Hero moves from tile " + heroTile + " to tile " + heroTile + "<br>";
         moveCharacter("hero", randomNumber);
         if (randomNumber == 6){
             return
@@ -265,9 +267,13 @@ function rollFunction(){
     }
     if (characterRound == "enemy"){
         let enemy = document.getElementById("enemyImage").remove();
-        gameLog.innerHTML += "Enemy rolled a " + randomNumber + "<br>";
-        gameLog.innerHTML += "Enemy moves from tile " + enemyTile + " to tile " + (enemyTile+randomNumber); + "<br>"
         enemyTile = (enemyTile+randomNumber);
+        gameLog.innerHTML += "Enemy rolled a " + randomNumber + "<br>";
+        if (enemyTile == monsterOne || enemyTile == monsterTwo || enemyTile == monsterThree || enemyTile == monsterFour || enemyTile == monsterFive){
+            gameLog.innerHTML += "Yes! The enemy encountered a monster and had to flee. The enemy steps back " + randomRetreatNumber + " tiles.<br>"
+            enemyTile = enemyTile - randomRetreatNumber;
+        }
+        gameLog.innerHTML += "Enemy moves from tile " + enemyTile + " to tile " + enemyTile + "<br>";
         moveCharacter("enemy", randomNumber);
         if (randomNumber == 6){
             return
@@ -279,23 +285,18 @@ function rollFunction(){
 
 function winnerScreen(character){
     let contentContainer = document.getElementById("caracterOverview"),
-        h1 = document.querySelector("h1");
+        h1 = document.querySelector("h1"),
+        buttonText = `<button class="button__victoryPage" onclick="fetchData()"><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">Restart the game<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>` 
     contentContainer.innerHTML="";
     if(character == "hero"){
         h1.innerHTML = "Victory!";
         contentContainer.innerHTML = `
 <h2>Congratulation on your very win, you managed to reach the goal before your enemy!</h2>
-<p>Want to try beat the enemy again? Click button below!</p>
-<button class="victoryPageButton" onclick="fetchData()">Restart the game</button>
-
-`
+<p class="endSchreen__p">Want to try beat the enemy again? Click button below!</p>` + buttonText
     } else if (character == "enemy"){
         h1.innerHTML = "Defeat.";
         contentContainer.innerHTML = `
 <h2>You did not manage to reach the goal before the enemy and there for you lost, better luck next time!</h2>
-<p>Want to get that bitter sweet revenge? Click the button below!</p>
-<button class="victoryPageButton" onclick="fetchData()">Restart the game</button>
-
-`
+<p class="endSchreen__p">Want to get that bitter sweet revenge? Click the button below!</p>` + buttonText
     }
 }

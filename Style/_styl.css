@@ -20,7 +20,8 @@ button:hover {
   text-decoration: underline;
 }
 .monsterImage {
-  height: 90%;
+  max-height: 90%;
+  max-width: 90%;
   margin: 5%;
 }
 .button--arrows {
@@ -33,6 +34,9 @@ button:hover {
   position: relative;
   top: -2px;
   margin: 5px 20px;
+}
+.button__victoryPage {
+  font-size: 32px;
 }
 .container {
   max-width: 1200px;
@@ -101,6 +105,15 @@ button:hover {
   padding: 50px 0;
   z-index: 10;
 }
+.overlay__close {
+  top: 10px;
+  right: 10px;
+  height: 72px;
+  position: absolute;
+}
+.overlay__close:hover {
+  cursor: pointer;
+}
 .characterInformation div {
   display: flex;
   height: 48px;
@@ -137,6 +150,12 @@ button:hover {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.endSchreen__p {
+  font-size: 20px;
+  text-align: center;
+  width: 100%;
+  margin: 20px;
 }
 #game__container {
   justify-content: center;
