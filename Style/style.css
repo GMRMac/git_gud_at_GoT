@@ -20,6 +20,9 @@ button {
 button:hover {
   text-decoration: underline;
 }
+footer {
+  margin-top: 50px !important;
+}
 .monsterImage {
   max-height: 90%;
   max-width: 90%;
@@ -84,16 +87,18 @@ button:hover {
   position: absolute;
   width: 100%;
   z-index: 10;
+  top: 0;
 }
 .overlay__content {
   position: fixed;
   background: #fff;
   display: block;
   width: 40%;
-  height: 80%;
+  max-height: 80%;
   margin: 5% 30%;
   z-index: 11;
   overflow-y: scroll;
+  padding: 30px;
 }
 .overlay--dark {
   position: fixed;
@@ -111,10 +116,19 @@ button:hover {
   right: 10px;
   height: 72px;
   position: absolute;
-  opacity: 1;
 }
 .overlay__close:hover {
   cursor: pointer;
+}
+.header,
+footer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.logo__image {
+  display: block;
+  margin: 0 auto;
+  max-width: 600px;
 }
 .characterInformation div {
   display: flex;

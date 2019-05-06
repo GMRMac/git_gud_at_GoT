@@ -14,6 +14,9 @@ button
     &:hover
         text-decoration underline
 
+footer
+    margin-top 50px!important
+        
 .monsterImage
     max-height 90%
     max-width 90%
@@ -75,15 +78,17 @@ button
     position absolute
     width 100%
     z-index 10
+    top 0
     &__content
         position fixed
         background white
         display block
         width 40%
-        height 80%
+        max-height 80%
         margin 5% 30%
         z-index 11
         overflow-y scroll
+        padding 30px
     &--dark
         position fixed
         background black
@@ -102,6 +107,18 @@ button
         &:hover
             cursor pointer
 
+
+        
+.header, footer
+    max-width 1200px
+    margin 0 auto
+            
+.logo
+    &__image
+        display block
+        margin 0 auto
+        max-width 600px
+            
 .characterInformation
     div
         display flex

@@ -34,7 +34,7 @@ function displaySelectableCharacters(data, header, characterSide){
         content = document.getElementById("caracterOverview");
         h1 = document.querySelector("h1");
     content.innerHTML = "";
-    if(h1.innerHTML == "Select your enemy!"){
+    if (h1.innerHTML == "Select your enemy!"){
         document.innerHTML ="";
         return createGame(); // If enemy(and hero) is selected, the game will start
     }
@@ -42,15 +42,28 @@ function displaySelectableCharacters(data, header, characterSide){
     h1.innerHTML = header;
 
     
-    for(var characters of data){
+    for (var characters of data){
         let name = characters.aliases,
             pictureFileSplit = name[0].split(" "),
             pictureFileJoin = pictureFileSplit.join("_");
+        
+        if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/23"){
+            console.log(characters.allegiances);
+            var imageName = "House_Blackfyre.svg";
+        } else if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/15"){
+            console.log(characters.allegiances);
+            var imageName = "House_Baratheon.svg";
+        } else if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/362"){
+            console.log(characters.allegiances);
+            var imageName = "House_Stark.svg";
+        } else {
+            var imageName = "neutral.svg";
+        }
 //        console.log(pictureFileJoin);
         pictureFileJoin = "placeholder";
         content.innerHTML += `
-<div onclick="findSelectedCharacter(`+characterNumber+`)" id="character-` + characterNumber + `" class='col-lg-4 col-6'><div class='characterPreview'>
-<img class="characterPreview__image" src="Media/Graph/`+(characterNumber+1)+`.png">
+<div onclick="findSelectedCharacter(` + characterNumber + `, '` + imageName + `')" id="character-` + characterNumber + `" class='col-lg-4 col-6'><div class='characterPreview'>
+<img class="characterPreview__image" src="Media/Graph/` + imageName + `">
 <h2>`+name+`</h2>
 <button><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">View more<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>
 </div></div>`;
@@ -59,17 +72,17 @@ function displaySelectableCharacters(data, header, characterSide){
 }
 
 //This function gets the information about one specific character
-function findSelectedCharacter(number){
+function findSelectedCharacter(number, imageName){
     fetch("https://anapioficeandfire.com/api/characters/"+(number+1))
     .then(function(data){
         return data.json()
     })
     .then(function(myJson){
-        displaySelectedCharacter(myJson, number);
+        displaySelectedCharacter(myJson, number, imageName);
     })
 }
 
-function displaySelectedCharacter(data, number){
+function displaySelectedCharacter(data, number, image){
     let character = document.getElementById("characterContent"),
         darkOverlay = `<div onclick="removeOverlay()" class="overlay--dark"><img class="overlay__close" src="Media/Graph/whiteX.svg"></div>         <div class="overlay__content">
                 <img class="selectedPicture" src="Media/Graph/`,
@@ -102,13 +115,13 @@ function displaySelectedCharacter(data, number){
     +`</div>`;
         if(characterside === "hero"){
             heroCharacter = data;
-            heroImageNumber = number;    
-            character.innerHTML = darkOverlay + (number + 1) + `.png">
+            heroImageNumber = image;    
+            character.innerHTML = darkOverlay + image + `">
                 ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Select enemy!" + buttonPartTwo
         } else if (characterside === "enemy"){
             enemyCharacter = data;
-            enemyImageNumber = number;      
-            character.innerHTML = darkOverlay + (number + 1) + `.png"> ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Start the game!" + buttonPartTwo
+            enemyImageNumber = image;      
+            character.innerHTML = darkOverlay + image + `"> ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Start the game!" + buttonPartTwo
         }
 }
 
@@ -132,10 +145,10 @@ function displayEnemyCharacter(){
 function setSelectedCharacterBubble(char){
     if (char === "hero"){
         let bubble = document.getElementById("heroPickedCharacter");
-        bubble.innerHTML += `<img class="characterInformation--img" id="heroPickedCharacterImage" src="Media/Graph/` + (heroImageNumber+1) + `.png">`;
+        bubble.innerHTML += `<img class="characterInformation--img" id="heroPickedCharacterImage" src="Media/Graph/` + heroImageNumber + `">`;
     } else if (char === "enemy"){
         let bubble = document.getElementById("enemyPickedCharacter");
-        bubble.innerHTML += `<img class="characterInformation--img" id="enemyPickedCharacterImage" src="Media/Graph/` + (enemyImageNumber+1) + `.png">`;
+        bubble.innerHTML += `<img class="characterInformation--img" id="enemyPickedCharacterImage" src="Media/Graph/` + enemyImageNumber + `">`;
     }
 }
 
@@ -207,13 +220,13 @@ function moveCharacter(character, number){
         enemyBubble = document.getElementById("enemyPickedCharacterImage");
     console.log(enemyTile,heroTile);
     if (character === "hero"){
-        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/" + (heroImageNumber+1) + ".png'>";
+        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/" + heroImageNumber + "'>";
         if(number != 6){
             heroBubble.classList.remove("characterInformation--img__active")
             enemyBubble.classList.add("characterInformation--img__active")
         }
     } else if (character === "enemy"){
-        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/" + (enemyImageNumber+1) + ".png'>";
+        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/" + enemyImageNumber + "'>";
         if(number != 6){
             enemyBubble.classList.remove("characterInformation--img__active")
             heroBubble.classList.add("characterInformation--img__active")
@@ -222,8 +235,8 @@ function moveCharacter(character, number){
 }
 
 function setObstacles(){
-    let fieldOne = (Math.ceil(Math.random()*4)+1),
-        fieldTwo = (Math.ceil(Math.random()*4)+8),
+    let fieldOne = (Math.ceil(Math.random()*4)+4),
+        fieldTwo = (Math.ceil(Math.random()*4)+9),
         fieldThree = (Math.ceil(Math.random()*4)+14),
         fieldFour = (Math.ceil(Math.random()*4)+19),
         fieldFive = (Math.ceil(Math.random()*4)+25);
@@ -248,7 +261,9 @@ function placeObstacle(obstaclePlace){
 function rollFunction(){
     let gameLog = document.getElementById("game__log"),
         randomNumber = Math.ceil(Math.random()*6),
-        randomRetreatNumber = (Math.ceil(Math.random()*2)+2);
+        randomRetreatNumber = (Math.ceil(Math.random()*2)+2),
+        initialHeroTile = heroTile,
+        initialEnemyTile = enemyTile;
     if (characterRound === "hero"){
         let hero = document.getElementById("heroImage").remove();
         heroTile = (heroTile+randomNumber);
@@ -257,7 +272,7 @@ function rollFunction(){
             gameLog.innerHTML += "Oh no! The hero encountered a monster and had to flee. The hero steps back " + randomRetreatNumber + " tiles.<br>"
             heroTile = heroTile - randomRetreatNumber;
         }
-        gameLog.innerHTML += "Hero moves from tile " + heroTile + " to tile " + heroTile + "<br>";
+        gameLog.innerHTML += "Hero moves from tile " + initialHeroTile + " to tile " + heroTile + "<br>";
         moveCharacter("hero", randomNumber);
         if (randomNumber == 6){
             return
@@ -273,7 +288,7 @@ function rollFunction(){
             gameLog.innerHTML += "Yes! The enemy encountered a monster and had to flee. The enemy steps back " + randomRetreatNumber + " tiles.<br>"
             enemyTile = enemyTile - randomRetreatNumber;
         }
-        gameLog.innerHTML += "Enemy moves from tile " + enemyTile + " to tile " + enemyTile + "<br>";
+        gameLog.innerHTML += "Enemy moves from tile " + initialEnemyTile + " to tile " + enemyTile + "<br>";
         moveCharacter("enemy", randomNumber);
         if (randomNumber == 6){
             return
@@ -296,7 +311,7 @@ function winnerScreen(character){
     } else if (character == "enemy"){
         h1.innerHTML = "Defeat.";
         contentContainer.innerHTML = `
-<h2>You did not manage to reach the goal before the enemy and there for you lost, better luck next time!</h2>
+<h2>You did not manage to reach the goal before the enemy and therefore you lost, better luck next time!</h2>
 <p class="endSchreen__p">Want to get that bitter sweet revenge? Click the button below!</p>` + buttonText
     }
 }
