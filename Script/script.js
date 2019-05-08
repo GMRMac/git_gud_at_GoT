@@ -31,7 +31,7 @@ fetchData();
 //This function displays the characters
 function displaySelectableCharacters(data, header, characterSide){
     let characterNumber = 0,
-        content = document.getElementById("caracterOverview");
+        content = document.getElementById("caracterOverview"),
         h1 = document.querySelector("h1");
     content.innerHTML = "";
     if (h1.innerHTML == "Select your enemy!"){
@@ -47,23 +47,27 @@ function displaySelectableCharacters(data, header, characterSide){
             pictureFileSplit = name[0].split(" "),
             pictureFileJoin = pictureFileSplit.join("_");
         
-        if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/23"){
+        if (characters.allegiances[0] == "https://anapioficeandfire.com/api/houses/23"){
             console.log(characters.allegiances);
-            var imageName = "House_Blackfyre.svg";
+            var imageName = "House_Blackfyre.svg",
+                imageAlt = " alt='House Blackfyre'";
         } else if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/15"){
             console.log(characters.allegiances);
-            var imageName = "House_Baratheon.svg";
+            var imageName = "House_Baratheon.svg",
+                imageAlt = " alt='House Baratheon'";
         } else if (characters.allegiances[0] === "https://anapioficeandfire.com/api/houses/362"){
             console.log(characters.allegiances);
-            var imageName = "House_Stark.svg";
+            var imageName = "House_Stark.svg",
+                imageAlt = " alt='House Stark'";
         } else {
-            var imageName = "neutral.svg";
+            var imageName = "neutral.svg",
+                imageAlt = " alt='Nautral icon'";
         }
 //        console.log(pictureFileJoin);
         pictureFileJoin = "placeholder";
         content.innerHTML += `
 <div onclick="findSelectedCharacter(` + characterNumber + `, '` + imageName + `')" id="character-` + characterNumber + `" class='col-lg-4 col-6'><div class='characterPreview'>
-<img class="characterPreview__image" src="Media/Graph/` + imageName + `">
+<img class="characterPreview__image" src="Media/Graph/` + imageName + `"` + imageAlt + `">
 <h2>`+name+`</h2>
 <button><img class="button--arrows" src="Media/Graph/TwoArrowsLeft.svg">View more<img class="button--arrows" src="Media/Graph/TwoArrowsRight.svg"></button>
 </div></div>`;
@@ -109,6 +113,18 @@ function displaySelectedCharacter(data, number, image){
     } else {
         var selectedCulture = ``;
     }
+    if (data.allegiances != ""){
+    console.log(data.allegiances);
+        if (data.allegiances == "https://www.anapioficeandfire.com/api/houses/362" || data.allegiances == "https://anapioficeandfire.com/api/houses/362"){
+            var selectdAllegiances = `<h2>House:</h2><h4>House Stark of Winterfell</h4>`
+        } else if (data.allegiances == "https://www.anapioficeandfire.com/api/houses/15" || data.allegiances == "https://anapioficeandfire.com/api/houses/15"){
+            var selectdAllegiances = `<h2>House:</h2><h4>House Baratheon of Dragonstone</h4>`
+        } else if (data.allegiances == "https://www.anapioficeandfire.com/api/houses/23" || data.allegiances == "https://anapioficeandfire.com/api/houses/23"){
+            var selectdAllegiances = `<h2>House:</h2><h4>House Blackfyre of King's Landing</h4>`
+        } 
+    } else {
+        var selectdAllegiances = `<h2>House:</h2><h4>Neutrall / banished</h4>`
+    }
     character.style.display = "block";
     console.log(data);
 
@@ -117,11 +133,11 @@ function displaySelectedCharacter(data, number, image){
             heroCharacter = data;
             heroImageNumber = image;    
             character.innerHTML = darkOverlay + image + `">
-                ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Select enemy!" + buttonPartTwo
+                ` + selectedName + selectedAliases + selectedGender + selectedCulture + selectdAllegiances + buttonPartOne + "Select enemy!" + buttonPartTwo
         } else if (characterside === "enemy"){
             enemyCharacter = data;
             enemyImageNumber = image;      
-            character.innerHTML = darkOverlay + image + `"> ` + selectedName + selectedAliases + selectedGender + selectedCulture + buttonPartOne + "Start the game!" + buttonPartTwo
+            character.innerHTML = darkOverlay + image + `"> ` + selectedName + selectedAliases + selectedGender + selectedCulture + selectdAllegiances + buttonPartOne + "Start the game!" + buttonPartTwo
         }
 }
 
@@ -145,10 +161,10 @@ function displayEnemyCharacter(){
 function setSelectedCharacterBubble(char){
     if (char === "hero"){
         let bubble = document.getElementById("heroPickedCharacter");
-        bubble.innerHTML += `<img class="characterInformation--img" id="heroPickedCharacterImage" src="Media/Graph/` + heroImageNumber + `">`;
+        bubble.innerHTML += `<img class="characterInformation--img" id="heroPickedCharacterImage" src="Media/Graph/thumbnail_` + heroImageNumber + `">`;
     } else if (char === "enemy"){
         let bubble = document.getElementById("enemyPickedCharacter");
-        bubble.innerHTML += `<img class="characterInformation--img" id="enemyPickedCharacterImage" src="Media/Graph/` + enemyImageNumber + `">`;
+        bubble.innerHTML += `<img class="characterInformation--img" id="enemyPickedCharacterImage" src="Media/Graph/thumbnail_` + enemyImageNumber + `">`;
     }
 }
 
@@ -220,13 +236,13 @@ function moveCharacter(character, number){
         enemyBubble = document.getElementById("enemyPickedCharacterImage");
     console.log(enemyTile,heroTile);
     if (character === "hero"){
-        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/" + heroImageNumber + "'>";
+        findHeroTile.innerHTML += "<img id='heroImage' src='Media/Graph/thumbnail_" + heroImageNumber + "'>";
         if(number != 6){
             heroBubble.classList.remove("characterInformation--img__active")
             enemyBubble.classList.add("characterInformation--img__active")
         }
     } else if (character === "enemy"){
-        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/" + enemyImageNumber + "'>";
+        findEnemyTile.innerHTML += "<img id='enemyImage' src='Media/Graph/thumbnail_" + enemyImageNumber + "'>";
         if(number != 6){
             enemyBubble.classList.remove("characterInformation--img__active")
             heroBubble.classList.add("characterInformation--img__active")

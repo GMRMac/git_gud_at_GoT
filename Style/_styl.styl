@@ -217,11 +217,58 @@ footer
     width 20%
     float left
 
-@media (min-width: 768px)
-    h1
-        color black
+@media (max-width: 768px)
+    .container
+        padding 10px
         
-@media (min-width: 992px)
+    .characterPreview
+        &__image
+            width 90%
+            margin 5px 5%
+            
+    h2
+        font-size 20px
+        
+    button
+        font-size 16px
+        margin 15px auto!important
+        
+    .button
+        &--arrows
+            height 18px
+            
+    .overlay
+        &__content
+            width 80%!important
+            margin 15% 10%
+            h2
+                font-size 24px
+            h4
+                font-size 20px
+            button
+                font-size 24px
+        &__close
+            top 4px
+            right 5px
+            height 36px
+    
+    .selected
+        &Picture
+            margin 0 auto 15px auto
+            
+    .col-sm-6, .col-lg-4
+        padding-right 7px!important
+        padding-left 7px!important
+        
+    .game
+        &__tile
+            height 75px
+            
+    .endSchreen
+        &__p
+            font-size 18px
+    
+@media (max-width: 992px)
     h1
         color black
     
